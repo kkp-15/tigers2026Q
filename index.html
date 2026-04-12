@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>タイガース背番号クイズ 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Oswald:wght@700&display=swap');
+
+  :root {
+    --tiger: #1A1A1A;
+    --tiger-dark: #000000;
+    --tiger-light: #333333;
+    --cream: #FFFDF5;
+    --gold: #FFD700;
+    --white: #FFFFFF;
+    --gray: #888;
+    --shadow: 0 4px 24px rgba(0,0,0,0.22);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--cream);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    background: var(--tiger);
+    color: white;
+    text-align: center;
+    padding: 28px 16px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: -60px; right: -60px;
+    height: 120px;
+    background: var(--tiger-dark);
+    border-radius: 50%;
+  }
+  header::after {
+    content: '⚾';
+    position: absolute;
+    font-size: 120px;
+    opacity: 0.06;
+    right: -10px;
+    top: -10px;
+    line-height: 1;
+  }
+  .header-inner { position: relative; z-index: 1; }
+  .header-tag {
+    display: inline-block;
+    background: var(--gold);
+    color: #3a2800;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 3px 12px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  h1 {
+    font-family: 'Oswald', 'Noto Sans JP', sans-serif;
+    font-size: clamp(26px, 6vw, 42px);
+    font-weight: 700;
+    letter-spacing: 2px;
+    line-height: 1.1;
+  }
+  h1 span {
+    color: #FFD700;
+    font-size: 0.55em;
+    display: block;
+    letter-spacing: 4px;
+    font-weight: 700;
+    margin-top: 4px;
+  }
+  .header-sub {
+    font-size: 13px;
+    opacity: 0.85;
+    margin-top: 8px;
+    letter-spacing: 1px;
+  }
+
+  /* ===== MAIN ===== */
+  main {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 24px 16px 60px;
+  }
+
+  /* ===== MODE SELECT ===== */
+  #screen-mode {
+    animation: fadeUp 0.5s ease;
+  }
+  .mode-title {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--tiger-dark);
+    margin: 28px 0 20px;
+    letter-spacing: 1px;
+  }
+  .mode-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .mode-card {
+    background: white;
+    border: 3px solid #eee;
+    border-radius: 16px;
+    padding: 20px 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .mode-card.selected {
+    border-color: var(--tiger);
+    background: #f0f0f0;
+  }
+  .mode-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+  .mode-icon { font-size: 32px; margin-bottom: 8px; }
+  .mode-name { font-size: 15px; font-weight: 700; color: #333; }
+  .mode-desc { font-size: 11px; color: var(--gray); margin-top: 4px; }
+
+  .pos-filter {
+    background: white;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 20px;
+    border: 2px solid #ddd;
+  }
+  .pos-filter-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gray);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+  .pos-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .pos-btn {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 2px solid #ddd;
+    background: white;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .pos-btn.active {
+    background: var(--tiger);
+    border-color: var(--tiger);
+    color: white;
+  }
+
+  .start-btn {
+    width: 100%;
+    background: var(--tiger);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    padding: 18px;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all 0.2s;
+    box-shadow: var(--shadow);
+  }
+  .start-btn:hover { background: var(--tiger-dark); transform: translateY(-2px); }
+  .start-btn:active { transform: translateY(0); }
+
+  /* ===== QUIZ SCREEN ===== */
+  #screen-quiz { animation: fadeUp 0.4s ease; display: none; }
+
+  .progress-bar-wrap {
+    background: #cccccc;
+    border-radius: 10px;
+    height: 8px;
+    margin: 20px 0 24px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--tiger-light), var(--tiger-dark));
+    border-radius: 10px;
+    transition: width 0.4s ease;
+  }
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--gray);
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .score-badge {
+    background: var(--tiger);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  /* Question card */
+  .q-card {
+    background: white;
+    border-radius: 20px;
+    padding: 28px 24px 24px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    margin-bottom: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .q-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--tiger);
+  }
+  .q-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--tiger);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  /* Mode A */
+  .player-display {
+    text-align: center;
+    padding: 8px 0 16px;
+  }
+  .player-name-big {
+    font-size: clamp(28px, 7vw, 44px);
+    font-weight: 900;
+    color: #1a1a1a;
+    letter-spacing: 2px;
+    line-height: 1.15;
+  }
+  .player-pos {
+    display: inline-block;
+    background: var(--cream);
+    border: 2px solid var(--tiger);
+    color: var(--tiger);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 12px;
+    border-radius: 20px;
+    margin-top: 8px;
+  }
+
+  /* Mode B */
+  .number-display {
+    text-align: center;
+    padding: 8px 0 12px;
+  }
+  .number-big {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(72px, 20vw, 120px);
+    font-weight: 700;
+    color: var(--tiger);
+    line-height: 1;
+    text-shadow: 4px 4px 0 rgba(0,0,0,0.15);
+    letter-spacing: -4px;
+  }
+  .number-hint {
+    font-size: 12px;
+    color: var(--gray);
+    margin-top: 4px;
+  }
+
+  /* Options */
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .option-btn {
+    background: white;
+    border: 2.5px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 14px 10px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: #222;
+    letter-spacing: 1px;
+  }
+  .option-btn:hover:not(:disabled) {
+    border-color: var(--tiger);
+    color: var(--tiger);
+    background: #f0f0f0;
+  }
+  .option-btn.correct {
+    background: #1a7a3c;
+    border-color: #1a7a3c;
+    color: white;
+    animation: pop 0.3s ease;
+  }
+  .option-btn.wrong {
+    background: #c0392b;
+    border-color: #c0392b;
+    color: white;
+  }
+  .option-btn.reveal {
+    background: rgba(26,122,60,0.1);
+    border-color: #1a7a3c;
+    color: #1a7a3c;
+  }
+  .option-btn:disabled { cursor: default; }
+
+  /* Feedback */
+  .feedback {
+    text-align: center;
+    padding: 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 15px;
+    margin-top: 14px;
+    display: none;
+    animation: fadeUp 0.3s ease;
+  }
+  .feedback.correct-fb { background: #e8f5ed; color: #1a7a3c; }
+  .feedback.wrong-fb { background: #fdecea; color: #c0392b; }
+  .feedback-icon { font-size: 24px; display: block; margin-bottom: 4px; }
+
+  .next-btn {
+    width: 100%;
+    background: var(--tiger);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    margin-top: 14px;
+    letter-spacing: 2px;
+    transition: all 0.2s;
+    display: none;
+  }
+  .next-btn:hover { background: var(--tiger-dark); }
+
+  /* ===== RESULT SCREEN ===== */
+  #screen-result {
+    display: none;
+    animation: fadeUp 0.5s ease;
+    text-align: center;
+  }
+  .result-card {
+    background: white;
+    border-radius: 24px;
+    padding: 36px 24px;
+    box-shadow: var(--shadow);
+    margin: 24px 0;
+  }
+  .result-trophy { font-size: 60px; margin-bottom: 12px; }
+  .result-title {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--tiger-dark);
+    margin-bottom: 6px;
+  }
+  .result-score {
+    font-family: 'Oswald', sans-serif;
+    font-size: 72px;
+    font-weight: 700;
+    color: var(--tiger);
+    line-height: 1;
+  }
+  .result-score span { font-size: 28px; color: var(--gray); }
+  .result-msg {
+    font-size: 15px;
+    color: #555;
+    margin-top: 12px;
+    line-height: 1.6;
+  }
+  .result-detail {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin: 20px 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gray);
+  }
+  .result-detail-item strong { color: #222; font-size: 20px; display: block; }
+
+  /* Review */
+  .review-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--tiger-dark);
+    text-align: left;
+    margin: 28px 0 12px;
+    letter-spacing: 1px;
+  }
+  .review-list { list-style: none; }
+  .review-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    border-left: 4px solid #ddd;
+    font-size: 14px;
+  }
+  .review-item.ok { border-color: #1a7a3c; }
+  .review-item.ng { border-color: #c0392b; }
+  .review-icon { font-size: 18px; }
+  .review-num {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--tiger);
+    min-width: 36px;
+    text-align: center;
+  }
+  .review-name { font-weight: 700; color: #222; }
+  .review-pos { font-size: 12px; color: var(--gray); }
+
+  .retry-btn {
+    width: 100%;
+    background: var(--tiger);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    padding: 18px;
+    font-size: 17px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all 0.2s;
+    box-shadow: var(--shadow);
+    margin-top: 8px;
+  }
+  .retry-btn:hover { background: var(--tiger-dark); }
+  .back-btn {
+    width: 100%;
+    background: white;
+    color: var(--tiger);
+    border: 2px solid var(--tiger);
+    border-radius: 14px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all 0.2s;
+    margin-top: 10px;
+  }
+  .back-btn:hover { background: #f0f0f0; }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pop {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.06); }
+    100% { transform: scale(1); }
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+  }
+  .shake { animation: shake 0.4s ease; }
+
+  /* ===== STREAK ===== */
+  .streak-bar {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+  .streak-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: #e0e0e0;
+    transition: background 0.3s;
+  }
+  .streak-dot.ok { background: #1a7a3c; }
+  .streak-dot.ng { background: #c0392b; }
+  .streak-dot.pending { background: #e0e0e0; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-tag">Hanshin Tigers 2026</div>
+    <h1>タイガース背番号クイズ<span>UNIFORM NUMBER QUIZ</span></h1>
+    <p class="header-sub">2026シーズン 支配下選手の背番号を覚えよう!</p>
+  </div>
+</header>
+
+<main>
+
+<!-- ===== MODE SELECT ===== -->
+<div id="screen-mode">
+  <p class="mode-title">🎯 クイズモードを選んでください</p>
+  <div class="mode-cards">
+    <div class="mode-card selected" data-mode="a" onclick="selectMode('a')">
+      <div class="mode-icon">🙋</div>
+      <div class="mode-name">選手→背番号</div>
+      <div class="mode-desc">選手名から<br>背番号を答える</div>
+    </div>
+    <div class="mode-card" data-mode="b" onclick="selectMode('b')">
+      <div class="mode-icon">🔢</div>
+      <div class="mode-name">背番号→選手</div>
+      <div class="mode-desc">背番号から<br>選手名を答える</div>
+    </div>
+  </div>
+
+  <div class="pos-filter">
+    <div class="pos-filter-title">📌 ポジション絞り込み</div>
+    <div class="pos-btns">
+      <button class="pos-btn active" data-pos="all" onclick="selectPos('all')">全員</button>
+      <button class="pos-btn" data-pos="投手" onclick="selectPos('投手')">⚾ 投手</button>
+      <button class="pos-btn" data-pos="捕手" onclick="selectPos('捕手')">🥊 捕手</button>
+      <button class="pos-btn" data-pos="内野手" onclick="selectPos('内野手')">🧤 内野手</button>
+      <button class="pos-btn" data-pos="外野手" onclick="selectPos('外野手')">🏃 外野手</button>
+    </div>
+  </div>
+
+  <div class="pos-filter" style="margin-top:0">
+    <div class="pos-filter-title">📋 問題数</div>
+    <div class="pos-btns">
+      <button class="pos-btn active" data-q="10" onclick="selectQ(10)">10問</button>
+      <button class="pos-btn" data-q="20" onclick="selectQ(20)">20問</button>
+      <button class="pos-btn" data-q="all" onclick="selectQ('all')">全問</button>
+    </div>
+  </div>
+
+  <button class="start-btn" onclick="startQuiz()">⚾ クイズスタート!</button>
+</div>
+
+<!-- ===== QUIZ ===== -->
+<div id="screen-quiz">
+  <div class="progress-info">
+    <span id="q-counter">1 / 10</span>
+    <span class="score-badge" id="score-badge">正解 0</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+  </div>
+  <div class="streak-bar" id="streak-bar"></div>
+
+  <div class="q-card" id="q-card">
+    <div class="q-label" id="q-label">Q.1</div>
+    <div id="q-body"></div>
+  </div>
+
+  <div class="options" id="options"></div>
+  <div class="feedback" id="feedback">
+    <span class="feedback-icon" id="fb-icon"></span>
+    <span id="fb-text"></span>
+  </div>
+  <button class="next-btn" id="next-btn" onclick="nextQuestion()">次の問題 →</button>
+</div>
+
+<!-- ===== RESULT ===== -->
+<div id="screen-result">
+  <div class="result-card">
+    <div class="result-trophy" id="result-trophy">🏆</div>
+    <div class="result-title" id="result-title">クイズ終了!</div>
+    <div class="result-score"><span id="result-score">0</span><span> / <span id="result-total">10</span></span></div>
+    <div class="result-detail">
+      <div class="result-detail-item">
+        <strong id="result-correct">0</strong>正解
+      </div>
+      <div class="result-detail-item">
+        <strong id="result-wrong">0</strong>不正解
+      </div>
+      <div class="result-detail-item">
+        <strong id="result-pct">0%</strong>正解率
+      </div>
+    </div>
+    <div class="result-msg" id="result-msg"></div>
+  </div>
+
+  <div class="review-title">📋 問題の振り返り</div>
+  <ul class="review-list" id="review-list"></ul>
+
+  <button class="retry-btn" onclick="retryQuiz()">🔄 もう一度チャレンジ!</button>
+  <button class="back-btn" onclick="goHome()">← モード選択に戻る</button>
+</div>
+
+</main>
+
+<script>
+// ===== DATA =====
+// NPB公式 2026年 支配下選手のみ（監督・育成選手は除外）
+const ALL_PLAYERS = [
+  // 投手 (32名)
+  {no:13,name:'岩崎優',pos:'投手'},
+  {no:14,name:'岩貞祐太',pos:'投手'},
+  {no:16,name:'西勇輝',pos:'投手'},
+  {no:18,name:'伊原陵人',pos:'投手'},
+  {no:19,name:'下村海翔',pos:'投手'},
+  {no:21,name:'大竹耕太郎',pos:'投手'},
+  {no:26,name:'椎葉剛',pos:'投手'},
+  {no:27,name:'伊藤将司',pos:'投手'},
+  {no:28,name:'今朝丸裕喜',pos:'投手'},
+  {no:29,name:'髙橋遥人',pos:'投手'},
+  {no:30,name:'門別啓人',pos:'投手'},
+  {no:35,name:'才木浩人',pos:'投手'},
+  {no:36,name:'畠世周',pos:'投手'},
+  {no:37,name:'及川雅貴',pos:'投手'},
+  {no:41,name:'村上頌樹',pos:'投手'},
+  {no:42,name:'ルーカス',pos:'投手'},
+  {no:44,name:'早瀬朔',pos:'投手'},
+  {no:46,name:'ラグズデール',pos:'投手'},
+  {no:47,name:'桐敷拓馬',pos:'投手'},
+  {no:48,name:'茨木秀俊',pos:'投手'},
+  {no:49,name:'工藤泰成',pos:'投手'},
+  {no:50,name:'富田蓮',pos:'投手'},
+  {no:51,name:'早川太貴',pos:'投手'},
+  {no:54,name:'木下里都',pos:'投手'},
+  {no:55,name:'能登嵩都',pos:'投手'},
+  {no:63,name:'石黒佑弥',pos:'投手'},
+  {no:64,name:'岡留英貴',pos:'投手'},
+  {no:65,name:'湯浅京己',pos:'投手'},
+  {no:66,name:'津田淳哉',pos:'投手'},
+  {no:69,name:'石井大智',pos:'投手'},
+  {no:98,name:'ドリス',pos:'投手'},
+  {no:99,name:'モレッタ',pos:'投手'},
+  // 捕手 (9名)
+  {no:2,name:'梅野隆太郎',pos:'捕手'},
+  {no:12,name:'坂本誠志郎',pos:'捕手'},
+  {no:17,name:'伏見寅威',pos:'捕手'},
+  {no:39,name:'榮枝裕貴',pos:'捕手'},
+  {no:43,name:'町田隼乙',pos:'捕手'},
+  {no:57,name:'長坂拳弥',pos:'捕手'},
+  {no:59,name:'藤田健斗',pos:'捕手'},
+  {no:68,name:'中川勇斗',pos:'捕手'},
+  {no:85,name:'嶋村麟士朗',pos:'捕手'},
+  // 内野手 (16名)
+  {no:100,name:'元山飛優',pos:'内野手',display:'00'},
+  {no:0,name:'木浪聖也',pos:'内野手'},
+  {no:3,name:'大山悠輔',pos:'内野手'},
+  {no:4,name:'熊谷敬宥',pos:'内野手'},
+  {no:7,name:'中野拓夢',pos:'内野手'},
+  {no:8,name:'佐藤輝明',pos:'内野手'},
+  {no:9,name:'立石正広',pos:'内野手'},
+  {no:24,name:'ディベイニー',pos:'内野手'},
+  {no:25,name:'谷端将伍',pos:'内野手'},
+  {no:33,name:'糸原健斗',pos:'内野手'},
+  {no:38,name:'小幡竜平',pos:'内野手'},
+  {no:45,name:'佐野大陽',pos:'内野手'},
+  {no:52,name:'山田脩也',pos:'内野手'},
+  {no:56,name:'百﨑蒼生',pos:'内野手'},
+  {no:62,name:'植田海',pos:'内野手'},
+  {no:67,name:'髙寺望夢',pos:'内野手'},
+  // 外野手 (10名)
+  {no:1,name:'森下翔太',pos:'外野手'},
+  {no:5,name:'近本光司',pos:'外野手'},
+  {no:32,name:'濱田太貴',pos:'外野手'},
+  {no:34,name:'岡城快生',pos:'外野手'},
+  {no:40,name:'井坪陽生',pos:'外野手'},
+  {no:53,name:'島田海吏',pos:'外野手'},
+  {no:58,name:'前川右京',pos:'外野手'},
+  {no:60,name:'小野寺暖',pos:'外野手'},
+  {no:61,name:'豊田寛',pos:'外野手'},
+  {no:92,name:'福島圭音',pos:'外野手'},
+];
+
+// Dedupe by number
+const PLAYERS = Array.from(new Map(ALL_PLAYERS.map(p => [p.no, p])).values());
+
+let mode = 'a';
+let filterPos = 'all';
+let questionCount = 10;
+let questions = [];
+let currentIdx = 0;
+let score = 0;
+let results = [];
+let answered = false;
+
+// ===== SETUP =====
+function selectMode(m) {
+  mode = m;
+  document.querySelectorAll('.mode-card').forEach(c => {
+    c.classList.toggle('selected', c.dataset.mode === m);
+  });
+}
+function selectPos(p) {
+  filterPos = p;
+  document.querySelectorAll('.pos-btn[data-pos]').forEach(b => {
+    b.classList.toggle('active', b.dataset.pos === p);
+  });
+}
+function selectQ(q) {
+  questionCount = q;
+  document.querySelectorAll('.pos-btn[data-q]').forEach(b => {
+    b.classList.toggle('active', String(b.dataset.q) === String(q));
+  });
+}
+
+// ===== QUIZ LOGIC =====
+function getDisplayNo(player) {
+  if (player.display) return player.display;
+  return String(player.no);
+}
+
+function startQuiz() {
+  let pool = filterPos === 'all' ? [...PLAYERS] : PLAYERS.filter(p => p.pos === filterPos);
+  if (pool.length < 4) { alert('選手が少なすぎます。絞り込み条件を変更してください。'); return; }
+
+  shuffle(pool);
+  let n = questionCount === 'all' ? pool.length : Math.min(questionCount, pool.length);
+  questions = pool.slice(0, n);
+  currentIdx = 0; score = 0; results = [];
+
+  showScreen('quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const player = questions[currentIdx];
+  const total = questions.length;
+  answered = false;
+
+  document.getElementById('q-counter').textContent = `${currentIdx+1} / ${total}`;
+  document.getElementById('score-badge').textContent = `正解 ${score}`;
+  document.getElementById('progress-bar').style.width = `${(currentIdx / total) * 100}%`;
+  document.getElementById('q-label').textContent = `Q.${currentIdx+1}`;
+
+  renderStreak(total);
+
+  const qBody = document.getElementById('q-body');
+  if (mode === 'a') {
+    qBody.innerHTML = `
+      <div class="player-display">
+        <div class="player-name-big">${player.name}</div>
+        <div style="margin-top:8px">
+          <span class="player-pos">${player.pos}</span>
+        </div>
+        <div style="font-size:14px;color:#888;margin-top:16px;font-weight:700;">この選手の背番号は?</div>
+      </div>`;
+  } else {
+    qBody.innerHTML = `
+      <div class="number-display">
+        <div class="number-big">${getDisplayNo(player)}</div>
+        <div class="number-hint">この背番号の選手は?（${player.pos}）</div>
+      </div>`;
+  }
+
+  const optsEl = document.getElementById('options');
+  const opts = generateOptions(player, mode);
+  optsEl.innerHTML = '';
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.textContent = (mode === 'a') ? getDisplayNo(opt) : opt.name;
+    btn.onclick = () => answer(btn, opt, player);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('feedback').style.display = 'none';
+  document.getElementById('next-btn').style.display = 'none';
+}
+
+function generateOptions(correct, mode) {
+  const pool = filterPos === 'all' ? PLAYERS : PLAYERS.filter(p => p.pos === filterPos);
+  let distractors = pool.filter(p => p.no !== correct.no);
+  shuffle(distractors);
+  distractors = distractors.slice(0, 3);
+  const all = [correct, ...distractors];
+  shuffle(all);
+  return all;
+}
+
+function answer(btn, chosen, player) {
+  if (answered) return;
+  answered = true;
+
+  const isCorrect = chosen.no === player.no;
+  results.push({ player, correct: isCorrect, chosen });
+
+  const allBtns = document.querySelectorAll('.option-btn');
+  allBtns.forEach(b => {
+    b.disabled = true;
+    const matchCorrect = mode === 'a'
+      ? (b.textContent === getDisplayNo(player))
+      : (b.textContent === player.name);
+    if (matchCorrect) b.classList.add('correct');
+  });
+
+  const dispNo = getDisplayNo(player);
+  if (isCorrect) {
+    score++;
+    btn.classList.remove('wrong');
+    document.getElementById('feedback').className = 'feedback correct-fb';
+    document.getElementById('fb-icon').textContent = '✅';
+    document.getElementById('fb-text').textContent = `正解! ${player.name} は ${dispNo}番です!`;
+  } else {
+    btn.classList.add('wrong');
+    document.getElementById('feedback').className = 'feedback wrong-fb';
+    document.getElementById('fb-icon').textContent = '❌';
+    document.getElementById('fb-text').textContent = `不正解… 正解は ${dispNo}番（${player.name}）でした。`;
+    document.getElementById('q-card').classList.add('shake');
+    setTimeout(() => document.getElementById('q-card').classList.remove('shake'), 400);
+  }
+  document.getElementById('feedback').style.display = 'block';
+  document.getElementById('score-badge').textContent = `正解 ${score}`;
+
+  renderStreak(questions.length);
+  document.getElementById('next-btn').style.display = 'block';
+  document.getElementById('next-btn').textContent =
+    currentIdx + 1 >= questions.length ? '結果を見る 🎉' : '次の問題 →';
+}
+
+function nextQuestion() {
+  currentIdx++;
+  if (currentIdx >= questions.length) {
+    showResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function renderStreak(total) {
+  const bar = document.getElementById('streak-bar');
+  bar.innerHTML = '';
+  for (let i = 0; i < total; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'streak-dot';
+    if (i < results.length) {
+      dot.classList.add(results[i].correct ? 'ok' : 'ng');
+    }
+    bar.appendChild(dot);
+  }
+}
+
+// ===== RESULT =====
+function showResult() {
+  showScreen('result');
+  const total = questions.length;
+  const pct = Math.round((score / total) * 100);
+
+  document.getElementById('result-score').textContent = score;
+  document.getElementById('result-total').textContent = total;
+  document.getElementById('result-correct').textContent = score;
+  document.getElementById('result-wrong').textContent = total - score;
+  document.getElementById('result-pct').textContent = pct + '%';
+
+  let trophy, title, msg;
+  if (pct === 100) { trophy='🏆'; title='パーフェクト!'; msg='全問正解おめでとう! タイガース通ですね!'; }
+  else if (pct >= 80) { trophy='🥇'; title='すごい!'; msg='タイガース愛が伝わります。あと少しで完璧!'; }
+  else if (pct >= 60) { trophy='🥈'; title='なかなかの実力!'; msg='もう一度挑戦してみましょう!'; }
+  else if (pct >= 40) { trophy='🥉'; title='もう少し!'; msg='選手名鑑を読んで再挑戦しましょう!'; }
+  else { trophy='⚾'; title='これから覚えよう!'; msg='タイガース選手の背番号をもっと覚えましょう!'; }
+
+  document.getElementById('result-trophy').textContent = trophy;
+  document.getElementById('result-title').textContent = title;
+  document.getElementById('result-msg').textContent = msg;
+
+  const list = document.getElementById('review-list');
+  list.innerHTML = '';
+  results.forEach(r => {
+    const li = document.createElement('li');
+    li.className = `review-item ${r.correct ? 'ok' : 'ng'}`;
+    li.innerHTML = `
+      <span class="review-icon">${r.correct ? '✅' : '❌'}</span>
+      <span class="review-num">${getDisplayNo(r.player)}</span>
+      <div>
+        <div class="review-name">${r.player.name}</div>
+        <div class="review-pos">${r.player.pos}</div>
+      </div>`;
+    list.appendChild(li);
+  });
+}
+
+function retryQuiz() { startQuiz(); }
+function goHome() { showScreen('mode'); }
+
+// ===== UTILS =====
+function showScreen(name) {
+  document.getElementById('screen-mode').style.display = name === 'mode' ? 'block' : 'none';
+  document.getElementById('screen-quiz').style.display = name === 'quiz' ? 'block' : 'none';
+  document.getElementById('screen-result').style.display = name === 'result' ? 'block' : 'none';
+  window.scrollTo(0, 0);
+}
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+</script>
+</body>
+</html>
