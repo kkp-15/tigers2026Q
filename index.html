@@ -1211,6 +1211,19 @@ function showResult() {
   document.getElementById('result-wrong').textContent = total - score;
   document.getElementById('result-pct').textContent = pct + '%';
 
+  // ベストスコア記録
+  const bestKey = 'best_tigers2026_' + mode + '_' + filterPos + '_' + questionCount;
+  const prevBest = parseInt(localStorage.getItem(bestKey)) || 0;
+  const bestEl = document.getElementById('best-score');
+  if (pct > prevBest) {
+    localStorage.setItem(bestKey, pct);
+    if (bestEl) bestEl.innerHTML = '🎉 <strong>新記録!</strong> ' + pct + '%';
+  } else if (prevBest > 0) {
+    if (bestEl) bestEl.innerHTML = '📊 ベスト: ' + prevBest + '%';
+  } else {
+    if (bestEl) bestEl.innerHTML = '';
+  }
+
   let trophy, title, msg;
   if (pct === 100) { trophy='🏆'; title='パーフェクト!'; msg='全問正解おめでとう! タイガース通ですね!'; }
   else if (pct >= 80) { trophy='🥇'; title='すごい!'; msg='タイガース愛が伝わります。あと少しで完璧!'; }
