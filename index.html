@@ -567,49 +567,6 @@ gtag('config', 'G-2LM85GJN0L');
   .x-btn { background: #000; color: #fff; }
   .line-btn { background: #06C755; color: #fff; }
 
-  /* ===== AFFILIATE ===== */
-  .affiliate-section {
-    margin-top: 28px;
-    padding: 20px 16px;
-    background: #f9f9f9;
-    border-radius: 12px;
-    text-align: center;
-  }
-  .affiliate-title {
-    font-weight: 700;
-    font-size: 15px;
-    margin-bottom: 12px;
-    color: #333;
-  }
-  .affiliate-links {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .affiliate-btn {
-    display: block;
-    padding: 14px 16px;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 15px;
-    color: white;
-    transition: opacity 0.2s;
-  }
-  .affiliate-btn:hover { opacity: 0.85; }
-  .affiliate-btn span {
-    display: block;
-    font-size: 11px;
-    font-weight: 400;
-    margin-top: 3px;
-    opacity: 0.9;
-  }
-  .affiliate-btn.skapa { background: #e60012; }
-  .affiliate-note {
-    font-size: 10px;
-    color: #aaa;
-    margin-top: 10px;
-  }
 </style>
 <script type="application/ld+json">
 {
@@ -736,20 +693,266 @@ gtag('config', 'G-2LM85GJN0L');
   <button class="retry-btn" onclick="retryQuiz()">🔄 もう一度チャレンジ!</button>
   <button class="back-btn" onclick="goHome()">← モード選択に戻る</button>
 
-  <div class="affiliate-section">
-    <p class="affiliate-title">⚾ もっと野球を楽しもう</p>
-    <div class="affiliate-links">
-      <a class="affiliate-btn skapa" href="https://px.a8.net/svt/ejp?a8mat=3NEJUR+FN84LE+461Y+6CP0Y" target="_blank" rel="noopener">
-        📺 スカパーで全試合観戦
-        <span>12球団すべての公式戦を視聴</span>
-      </a>
-    </div>
-    <p class="affiliate-note">※ 本リンクはアフィリエイト広告です</p>
-  </div>
-
 </div>
 
-<div style="text-align:center;margin:28px 0 0;padding:16px;"><a href="https://npb2026q.kkpwebninja.com" style="display:inline-block;background:#f0f0f0;color:#333;text-decoration:none;font-weight:700;font-size:14px;padding:12px 24px;border-radius:10px;letter-spacing:1px;transition:all 0.2s;">⚾ 他の球団のクイズに挑戦 →</a></div></main>
+<div style="text-align:center;margin:28px 0 0;padding:16px;"><a href="https://npb2026q.kkpwebninja.com" style="display:inline-block;background:#f0f0f0;color:#333;text-decoration:none;font-weight:700;font-size:14px;padding:12px 24px;border-radius:10px;letter-spacing:1px;transition:all 0.2s;">⚾ 他の球団のクイズに挑戦 →</a></div>
+
+<!-- SEOコンテンツ（アコーディオン） -->
+<style>
+.seo-section { margin: 32px 0 0; }
+.seo-toggle {
+  width: 100%;
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.seo-toggle:hover { border-color: var(--tiger); color: var(--tiger); }
+.seo-toggle .arrow { transition: transform 0.3s; font-size: 18px; }
+.seo-toggle.open .arrow { transform: rotate(180deg); }
+.seo-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  background: white;
+  border-radius: 0 0 12px 12px;
+  margin-top: -2px;
+}
+.seo-content.open { max-height: 5000px; }
+.seo-inner {
+  padding: 20px 18px;
+  font-size: 13px;
+  color: #444;
+  line-height: 1.8;
+}
+.seo-inner h2 {
+  font-size: 15px;
+  color: var(--tiger-dark);
+  margin: 20px 0 8px;
+  padding-left: 10px;
+  border-left: 3px solid var(--tiger);
+}
+.seo-inner h2:first-child { margin-top: 0; }
+.seo-inner p { margin: 6px 0; }
+.seo-inner table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+  font-size: 12px;
+}
+.seo-inner th {
+  background: var(--tiger);
+  color: white;
+  padding: 6px 8px;
+  text-align: left;
+  font-size: 11px;
+}
+.seo-inner td {
+  padding: 5px 8px;
+  border-bottom: 1px solid #eee;
+}
+.seo-inner tr:nth-child(even) { background: #f8f9fc; }
+.seo-inner .trivia {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin: 12px 0;
+  border-left: 3px solid var(--gold);
+}
+.seo-inner .trivia strong { color: var(--tiger-dark); }
+.seo-inner .related-links {
+  margin: 16px 0;
+}
+.seo-inner .related-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fafafa;
+  border: 1px solid #e8e8e8;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 8px 0;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.2s;
+}
+.seo-inner .related-link:hover {
+  background: #f0f0f0;
+  border-color: var(--tiger);
+}
+.seo-inner .related-link .link-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.seo-inner .related-link .link-body {
+  flex: 1;
+  min-width: 0;
+}
+.seo-inner .related-link .link-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #222;
+}
+.seo-inner .related-link .link-desc {
+  font-size: 11px;
+  color: #888;
+  margin-top: 2px;
+}
+.seo-inner .related-link .link-arrow {
+  color: #ccc;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.seo-inner .ad-note {
+  font-size: 10px;
+  color: #bbb;
+  text-align: right;
+  margin-top: 4px;
+}
+</style>
+
+<div class="seo-section">
+  <button class="seo-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+    📖 タイガース 2026年選手一覧・背番号の豆知識
+    <span class="arrow">▼</span>
+  </button>
+  <div class="seo-content">
+    <div class="seo-inner">
+      <h2>阪神タイガース 2026年 支配下選手 背番号一覧</h2>
+      <p>2026年シーズンの阪神タイガースの支配下選手は67名。投手32名、捕手9名、内野手16名、外野手10名の構成です。</p>
+
+      <h2>投手（32名）</h2>
+      <table>
+        <tr><th>背番号</th><th>選手名</th></tr>
+        <tr><td>13</td><td>岩崎優</td></tr>
+        <tr><td>14</td><td>岩貞祐太</td></tr>
+        <tr><td>16</td><td>西勇輝</td></tr>
+        <tr><td>18</td><td>伊原陵人</td></tr>
+        <tr><td>19</td><td>下村海翔</td></tr>
+        <tr><td>21</td><td>大竹耕太郎</td></tr>
+        <tr><td>26</td><td>椎葉剛</td></tr>
+        <tr><td>27</td><td>伊藤将司</td></tr>
+        <tr><td>28</td><td>今朝丸裕喜</td></tr>
+        <tr><td>29</td><td>髙橋遥人</td></tr>
+        <tr><td>30</td><td>門別啓人</td></tr>
+        <tr><td>35</td><td>才木浩人</td></tr>
+        <tr><td>36</td><td>畠世周</td></tr>
+        <tr><td>37</td><td>及川雅貴</td></tr>
+        <tr><td>41</td><td>村上頌樹</td></tr>
+        <tr><td>42</td><td>ルーカス</td></tr>
+        <tr><td>44</td><td>早瀬朔</td></tr>
+        <tr><td>46</td><td>ラグズデール</td></tr>
+        <tr><td>47</td><td>桐敷拓馬</td></tr>
+        <tr><td>48</td><td>茨木秀俊</td></tr>
+        <tr><td>49</td><td>工藤泰成</td></tr>
+        <tr><td>50</td><td>富田蓮</td></tr>
+        <tr><td>51</td><td>早川太貴</td></tr>
+        <tr><td>54</td><td>木下里都</td></tr>
+        <tr><td>55</td><td>能登嵩都</td></tr>
+        <tr><td>63</td><td>石黒佑弥</td></tr>
+        <tr><td>64</td><td>岡留英貴</td></tr>
+        <tr><td>65</td><td>湯浅京己</td></tr>
+        <tr><td>66</td><td>津田淳哉</td></tr>
+        <tr><td>69</td><td>石井大智</td></tr>
+        <tr><td>98</td><td>ドリス</td></tr>
+        <tr><td>99</td><td>モレッタ</td></tr>
+      </table>
+
+      <h2>捕手（9名）</h2>
+      <table>
+        <tr><th>背番号</th><th>選手名</th></tr>
+        <tr><td>2</td><td>梅野隆太郎</td></tr>
+        <tr><td>12</td><td>坂本誠志郎</td></tr>
+        <tr><td>17</td><td>伏見寅威</td></tr>
+        <tr><td>39</td><td>榮枝裕貴</td></tr>
+        <tr><td>43</td><td>町田隼乙</td></tr>
+        <tr><td>57</td><td>長坂拳弥</td></tr>
+        <tr><td>59</td><td>藤田健斗</td></tr>
+        <tr><td>68</td><td>中川勇斗</td></tr>
+        <tr><td>85</td><td>嶋村麟士朗</td></tr>
+      </table>
+
+      <h2>内野手（16名）</h2>
+      <table>
+        <tr><th>背番号</th><th>選手名</th></tr>
+        <tr><td>00</td><td>元山飛優</td></tr>
+        <tr><td>0</td><td>木浪聖也</td></tr>
+        <tr><td>3</td><td>大山悠輔</td></tr>
+        <tr><td>4</td><td>熊谷敬宥</td></tr>
+        <tr><td>7</td><td>中野拓夢</td></tr>
+        <tr><td>8</td><td>佐藤輝明</td></tr>
+        <tr><td>9</td><td>立石正広</td></tr>
+        <tr><td>24</td><td>ディベイニー</td></tr>
+        <tr><td>25</td><td>谷端将伍</td></tr>
+        <tr><td>33</td><td>糸原健斗</td></tr>
+        <tr><td>38</td><td>小幡竜平</td></tr>
+        <tr><td>45</td><td>佐野大陽</td></tr>
+        <tr><td>52</td><td>山田脩也</td></tr>
+        <tr><td>56</td><td>百﨑蒼生</td></tr>
+        <tr><td>62</td><td>植田海</td></tr>
+        <tr><td>67</td><td>髙寺望夢</td></tr>
+      </table>
+
+      <h2>外野手（10名）</h2>
+      <table>
+        <tr><th>背番号</th><th>選手名</th></tr>
+        <tr><td>1</td><td>森下翔太</td></tr>
+        <tr><td>5</td><td>近本光司</td></tr>
+        <tr><td>32</td><td>濱田太貴</td></tr>
+        <tr><td>34</td><td>岡城快生</td></tr>
+        <tr><td>40</td><td>井坪陽生</td></tr>
+        <tr><td>53</td><td>島田海吏</td></tr>
+        <tr><td>58</td><td>前川右京</td></tr>
+        <tr><td>60</td><td>小野寺暖</td></tr>
+        <tr><td>61</td><td>豊田寛</td></tr>
+        <tr><td>92</td><td>福島圭音</td></tr>
+      </table>
+
+      <h2>背番号の豆知識</h2>
+      <div class="trivia">
+        <strong>永久欠番：10番（藤村富美男）</strong><br>
+        初代ミスタータイガース。藤村富美男の背番号10は阪神タイガースの永久欠番として長く語り継がれています。
+      </div>
+      <div class="trivia">
+        <strong>永久欠番：23番（吉田義男）</strong><br>
+        牛若丸と呼ばれた名遊撃手、吉田義男の背番号23は阪神タイガースの永久欠番です。
+      </div>
+      <div class="trivia">
+        <strong>背番号7：中野拓夢</strong><br>
+        阪神の不動のショートとして活躍する若手スター。WBCでも日本代表に選出された実力派内野手です。
+      </div>
+
+      <h2>タイガースの試合を観るには</h2>
+      <p>背番号を覚えたら、実際の試合で選手をチェックしてみましょう。タイガースの試合はさまざまなサービスで視聴できます。</p>
+      <div class="related-links">
+        <a class="related-link" href="https://px.a8.net/svt/ejp?a8mat=3NEJUR+FN84LE+461Y+6CP0Y" target="_blank" rel="noopener">
+          <span class="link-icon">📺</span>
+          <div class="link-body">
+            <div class="link-title">スカパー!プロ野球セット</div>
+            <div class="link-desc">12球団の全試合をライブ中継で視聴できます</div>
+          </div>
+          <span class="link-arrow">›</span>
+        </a>
+      </div>
+      <p class="ad-note">※ 広告を含みます</p>
+
+      <h2>このクイズについて</h2>
+      <p>「タイガース背番号クイズ 2026」は、阪神タイガースの2026年シーズン支配下選手の背番号を学べる無料クイズアプリです。選手名から背番号を当てるモードと、背番号から選手名を当てるモードの2種類を用意。ポジション別の絞り込みや問題数の選択も可能です。タイガースファンの方はもちろん、プロ野球ファン全般の方にお楽しみいただけます。</p>
+      <p>データはNPB公式サイト（2026年シーズン）に基づいています。育成選手・監督は含まれていません。</p>
+    </div>
+  </div>
+</div>
+
+</main>
 
 <script>
 // ===== DATA =====
